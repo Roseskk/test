@@ -90,7 +90,6 @@ export default function Ideas (props) {
                 border-top-right-radius: 10px;
               }
               button {
-                //padding: 10px 40px 10px 40px;
                 border:1px solid white;
                 border-top: none;
                 border-bottom-left-radius: 12px;
