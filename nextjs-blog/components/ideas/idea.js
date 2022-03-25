@@ -6,9 +6,9 @@ export default function Ideas (props) {
             {
                 props.posts.ideas.map((item,idx)=>{
                     return(
-                        <li className={'rounded background-light mt-10 p-30 helvetica'} key={idx}>
-                            <div>
-                                <div className={'flex align-center'}>
+                        <li className={'rounded background-light mt-10 p-30 helvetica relative'} key={idx}>
+                            <div className={''}>
+                                <div className={'flex align-center w-full '}>
                                     <h3 className={'sizeS'}>{item.ownerIdea.userName}</h3>
                                     <div className={'ml-10'}>
                                         <span className={'sizeXS ml-5'}>{item.ownerIdea.firstName}</span>
@@ -16,6 +16,7 @@ export default function Ideas (props) {
                                         <hr className={'solid-black ml-5'}/>
                                     </div>
                                 </div>
+                                <button className={'absolute right-0 top-0 border-none background-white'}><div className={'background-light  p-button'}>Посмотреть</div></button>
                                 <h2 className={'sizeX mt-30'}>{item.name}</h2>
                                 <div className={'borderCircle background-white p-20 rounded word-break'}>
                                     <p className={'m-0 lucida'}>{item.description}</p>
@@ -83,6 +84,20 @@ export default function Ideas (props) {
               .helvetica {
                 font-family: Helvetica,sans-serif;
               }
+              .p-button {
+                padding: 10px 20px 10px 20px;
+                border-bottom-left-radius: 10px;
+                border-top-right-radius: 10px;
+              }
+              button {
+                //padding: 10px 40px 10px 40px;
+                border:1px solid white;
+                border-top: none;
+                border-bottom-left-radius: 12px;
+                padding: 2px;
+                font-family: LucidaConsole,sans-serif;
+                font-size: 18px;
+              }
               hr {
               margin: 0;
               transform: translateY(-5px);
@@ -95,6 +110,21 @@ export default function Ideas (props) {
               h1,h2,h3,h4,h5 {
                 margin: 0;
                 padding: 0;
+              }
+              .absolute {
+                position: absolute;
+              }
+              .relative {
+                position: relative;
+              }
+              .right-0 {
+                right: 0;
+              }
+              .top-0 {
+                top: 0;
+              }
+              .w-full {
+                width: 100%;
               }
               .w-100 {
                 min-width: 120px;
