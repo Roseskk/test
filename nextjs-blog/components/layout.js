@@ -21,6 +21,12 @@ export default function Layout ({children, home}) {
             </header>
             <main>{children}</main>
             <style jsx scoped>{`
+                header {
+                  background-color: white;
+                  border-bottom: 1px solid lightslategray;
+                  opacity: 80%;
+                  z-index: 20;
+                }
                 .container {
                   max-width: 1260px !important;
                 }

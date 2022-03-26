@@ -9,22 +9,7 @@ import Ideas from "../components/ideas/idea";
 
 
 
-export default function Home({posts : serverPost}) {
-    const [post,setIdea] = useState(serverPost)
-    useEffect(()=>{
-        async function load() {
-            const res = await fetch('https://api-staging.devbuff.com/idea/?page=1&sortBy=lastUpdate&specialists=&languages=')
-            const posts = await res.json()
-            setIdea(posts)
-        }
-        if (!serverPost) {
-            load()
-        }
-    },[])
-
-    if(!post) {
-        return <p>Load...</p>
-    }
+export default function Home(props) {
 
 
   return (
@@ -39,7 +24,7 @@ export default function Home({posts : serverPost}) {
             </nav>
             <div className={'w-60'}>
                 <h1>Идеи</h1>
-                <Ideas posts={post} />
+                <Ideas />
             </div>
             <div className={'w-20 ml-15 sticky'}>Специализации ...скоро будет ребят прям вот уже ПОБЕЖАЛ кабанчиком</div>
         </section>
@@ -50,7 +35,7 @@ export default function Home({posts : serverPost}) {
           .sticky {
           position: sticky;
           height: 200px;
-          top: 50px;
+          top: 60px;
       }
           .h-200 {
            height: 300px;    
@@ -112,11 +97,4 @@ export default function Home({posts : serverPost}) {
           `}</style>
       </Layout>
   )
-}
-Home.getInitialProps = async () => {
-    const res = await fetch('https://api-staging.devbuff.com/idea/?page=1&sortBy=lastUpdate&specialists=&languages=')
-    const posts = await res.json()
-    return {
-       posts : posts.idea
-    }
 }
