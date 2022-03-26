@@ -4,35 +4,13 @@ import {Rings} from "react-loader-spinner";
 import IdeaModal from "../modal/IdeaModal";
 
 
-export default function Ideas ({ posts : serverPost }) {
-    const [post,setIdea] = useState(serverPost)
-    const [modal,setModal] = useState(false)
-    useEffect(()=>{
-        async function load() {
-            const res = await fetch('https://api-staging.devbuff.com/idea/?page=1&sortBy=lastUpdate&specialists=&languages=')
-            const posts = await res.json()
-            setIdea(posts)
-        }
-        if (!serverPost) {
-            load()
-        }
-    },[])
+export default function Ideas (props) {
 
-    if(!post) {
-        return <Rings
-               className={'loader'}
-               height={1000}
-               width={1000}
-               color={'#0070f3'}
-               ariaLabel={'loading'}
-        />
-    }
     return(
         <>
             <ul className={'list-style-none p-0'}>
                 {
-                    post.ideas.map((item,idx)=>{
-                        console.log(item.id)
+                    props.ideas.map((item,idx)=>{
                         return(
                             <li className={'rounded background-white box-shadow mt-10 p-30 helvetica relative'} key={idx}>
                                 <div className={''}>
@@ -50,7 +28,7 @@ export default function Ideas ({ posts : serverPost }) {
                                             <hr className={'solid-black ml-5'}/>
                                         </div>
                                     </div>
-                                    <button onClick={handleModal} className={'absolute right-0 top-0 border-none background-white pointer'}><div className={' p-button'}>Посмотреть</div></button>
+                                    <button onClick={()=>props.handleModal(item.id)} className={'absolute right-0 top-0 border-none background-white pointer'}><div className={' p-button'}>Посмотреть</div></button>
                                     <h2 className={'sizeX mt-30'}>{item.name}</h2>
                                     <div className={'borderCircle  background-lightGray p-20 rounded word-break'}>
                                         <p className={'m-0 lucida'}>{item.description}</p>
@@ -278,15 +256,7 @@ export default function Ideas ({ posts : serverPost }) {
                   
                 `}</style>
             </ul>
-            <IdeaModal  modal={modal} />
+            {/*<IdeaModal idea={about}  modal={modal} />*/}
         </>
     )
-}
-
-Ideas.getInitialProps = async () => {
-    const res = await fetch('https://api-staging.devbuff.com/idea/?page=1&sortBy=lastUpdate&specialists=&languages=')
-    const posts = await res.json()
-    return {
-        posts : posts.idea
-    }
 }

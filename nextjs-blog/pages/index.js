@@ -6,11 +6,25 @@ import utilStyles from '../styles/utils.module.css'
 import Image from "next/image";
 import Link from "next/link";
 import Ideas from "../components/ideas/idea";
+import IdeaModal from "../components/modal/IdeaModal";
 
 
 
-export default function Home(props) {
-
+export default function Home({posts,children}) {
+    const [modal,setModal] = useState()
+    const [idea,setIdea] = useState()
+    async function handleModal(id) {
+        const res = await fetch(`https://api-staging.devbuff.com/idea/${id}`)
+        const content = await res.json()
+        setIdea(content);
+        setModal(true);
+    }
+    function handleExit() {
+        setModal(false)
+    }
+    function handleId(id) {
+        console.log('here')
+    }
 
   return (
       <Layout>
@@ -24,7 +38,8 @@ export default function Home(props) {
             </nav>
             <div className={'w-60'}>
                 <h1>Идеи</h1>
-                <Ideas />
+                <Ideas handleModal={handleModal} ideas={posts} />
+                <IdeaModal handleId={handleId} handleExit={handleExit} modal={modal} idea={idea} />
             </div>
             <div className={'w-20 ml-15 sticky'}>Специализации ...скоро будет ребят прям вот уже ПОБЕЖАЛ кабанчиком</div>
         </section>
@@ -95,6 +110,14 @@ export default function Home(props) {
           background-color: lightcyan;      
       }
           `}</style>
+          {children}
       </Layout>
   )
+}
+Home.getInitialProps = async () => {
+    const res = await fetch('https://api-staging.devbuff.com/idea/?page=1&sortBy=lastUpdate&specialists=&languages=')
+    const posts = await res.json()
+    return {
+        posts : posts.ideas
+    }
 }

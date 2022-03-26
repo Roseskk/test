@@ -1,8 +1,9 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import Home from "../pages";
 
 
-export default function Layout ({children, home}) {
+export default function LayoutIdea ({children}) {
     return(
         <div >
             <Head>
@@ -19,7 +20,8 @@ export default function Layout ({children, home}) {
                     <div><Link href={'/'}><a>Идеи вот</a></Link></div>
                 </nav>
             </header>
-            <main>{children}</main>
+            <main><><div>{children}</div></></main>
+
             <style jsx scoped>{`
                 header {
                   position: fixed;
