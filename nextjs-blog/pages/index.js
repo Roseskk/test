@@ -1,6 +1,4 @@
-import Head from 'next/head'
 import {useState,useEffect} from "react";
-import {useRouter} from "next/router";
 import Layout from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import Image from "next/image";

@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import Home from "../pages";
+import Image from "next/image";
 
 
 export default function LayoutIdea ({children}) {
@@ -20,7 +20,18 @@ export default function LayoutIdea ({children}) {
                     <div><Link href={'/'}><a>Идеи вот</a></Link></div>
                 </nav>
             </header>
-            <main><><div>{children}</div></></main>
+            <main>
+                <section className={'container p-20 ml-auto mr-auto justify-between flex'}>
+                    <nav className={'h-200 w-20 sticky'}>
+                        <ul className={'list-style-none p-0'}>
+                            <li className={'mt-15'}><Link href={'/'}><a className={'flex align-center '}><div className={'flex align-center'}><div className={'p-10 background-light rounded'}><Image width={40} height={40} src={'/images/idea-svgrepo-com.svg'}/></div><span className={'ml-15'}>Идеи</span></div></a></Link></li>
+                            <li className={'mt-15'}><Link href={'/'}><a className={'flex align-center '}><div className={'flex align-center'}><div className={'p-10 background-light rounded'}><Image width={40} height={40} src={'/images/dashboard-svgrepo-com.svg'}/></div><span className={'ml-15'}>Дашборд</span></div></a></Link></li>
+                            <li className={'mt-15'}><Link href={'/'}><a className={'flex align-center '}><div className={'flex align-center'}><div className={'p-10 background-light rounded'}><Image width={40} height={40} src={'/images/settings-svgrepo-com.svg'}/></div><span className={'ml-15'}>Настройки</span></div></a></Link></li>
+                        </ul>
+                    </nav>
+                    {children}
+                </section>
+            </main>
 
             <style jsx scoped>{`
                 header {
@@ -36,7 +47,16 @@ export default function LayoutIdea ({children}) {
                 }
                 .sticky {
                   position: sticky;
-                  top: 0;
+                  
+                }
+                .h-200 {
+                  height: 300px;
+                }
+                .w-20 {
+                  width: 20%;
+                }
+                .w-60 {
+                  width: 60%;
                 }
                 .flex {
                   display: flex;
@@ -50,6 +70,18 @@ export default function LayoutIdea ({children}) {
                 .justify-between {
                   justify-content: space-between;
                 }
+                .justify-center {
+                  justify-content: center;
+                }
+                .align-center {
+                  align-items: center;
+                }
+                .rounded {
+                  border-radius: 10px;
+                }
+                .p-0 {
+                  padding: 0;
+                }
                 .p-10 {
                   padding: 10px;
                 }
@@ -59,8 +91,20 @@ export default function LayoutIdea ({children}) {
                 .p-30 {
                   padding: 30px;
                 }
-                .background-white {
-                  background-color: white;
+                .mt-15 {
+                  margin-top: 15px;
+                }
+                .mt-15:nth-child(1) {
+                  margin-top: 0;
+                }
+                .ml-15 {
+                  margin-left: 15px;
+                }
+                .list-style-none {
+                  list-style-type: none;
+                }
+                .background-light {
+                  background-color: lightcyan;
                 }
             `}</style>
         </div>
