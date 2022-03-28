@@ -8,7 +8,6 @@ export default function Ideas (props) {
             <ul className={'list-style-none p-0'}>
                 {
                     props.ideas.map((item,idx)=>{
-                        console.log(item.id)
                         return(
                             <li className={'rounded background-white box-shadow mt-10 p-30 helvetica relative'} key={idx}>
                                 <div className={''}>

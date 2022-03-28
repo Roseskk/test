@@ -1,16 +1,21 @@
 import {useState,useEffect} from "react";
+import {useRouter} from "next/router";
 import Layout from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import Image from "next/image";
 import Link from "next/link";
 import Ideas from "../components/ideas/idea";
 import IdeaModal from "../components/modal/IdeaModal";
+import {Rings} from "react-loader-spinner";
 
 
 
-export default function Home({posts,children}) {
-    const [modal,setModal] = useState()
-    const [idea,setIdea] = useState()
+export default function Home({posts ,children,isScroll}) {
+    const [ring,setRing] = useState('sticky-load hidden ');
+    const [overlay,setOverlay] = useState('hidden')
+    const [modal,setModal] = useState();
+    const [idea,setIdea] = useState();
+    const router = useRouter();
     async function handleModal(id) {
         const res = await fetch(`https://api-staging.devbuff.com/idea/${id}`)
         const content = await res.json()
@@ -21,11 +26,22 @@ export default function Home({posts,children}) {
         setModal(false)
     }
     function handleId(id) {
-        console.log('here')
+        setRing(true)
+        router.push(id)
+        if (!router.query.id) {
+            setRing('sticky-load on')
+            setOverlay('overlay')
+        }
     }
 
   return (
       <Layout>
+          <div className={ring}>
+              <Image src={'/images/load.svg'}
+                     width={100}
+                     height={100}
+              />
+          </div>
         <section className={'container p-20 ml-auto mr-auto justify-between flex'}>
             <nav className={'h-200 w-20 sticky'}>
                 <ul className={'list-style-none p-0'}>
@@ -41,14 +57,34 @@ export default function Home({posts,children}) {
             </div>
             <div className={'w-20 ml-15 sticky'}>Специализации ...скоро будет ребят прям вот уже ПОБЕЖАЛ кабанчиком</div>
         </section>
+          <div className={overlay}></div>
           <style jsx>{`
           .container {
           max-width: 1260px !important;
       }
           .sticky {
           position: sticky;
-          height: 200px;
+          height: 200px !important;
           top: 60px;
+      }
+      .overlay {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        z-index: 8000;
+        background-color: lightslategray;
+        opacity: 60%;
+    }
+      .sticky-load {
+          position:fixed;
+          height: 200px;
+          left: 50%;
+          top : 50%;
+          z-index: 9000;
+          background: transparent;
+          transform: translate(-50%,-50%);
       }
           .h-200 {
            height: 300px;    
@@ -107,15 +143,24 @@ export default function Home({posts,children}) {
           .background-light {
           background-color: lightcyan;      
       }
+          .hidden {
+          display: none;    
+      }
+          .on {
+          display: block;
+          background: transparent;
+          }
           `}</style>
           {children}
       </Layout>
   )
 }
-Home.getInitialProps = async () => {
+export const getStaticProps = async () => {
     const res = await fetch('https://api-staging.devbuff.com/idea/?page=1&sortBy=lastUpdate&specialists=&languages=')
     const posts = await res.json()
     return {
-        posts : posts.ideas
+        props : {
+         posts : posts.ideas
+        }
     }
 }

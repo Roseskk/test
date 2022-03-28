@@ -1,52 +1,55 @@
 import Image from "next/image";
 import renderHTML from 'react-render-html';
 
-export async function getStaticProps() {
-    return {
-        props : {
-            isScroll : true
-        }
-    }
-}
 
 export default function IdeaModal (props) {
+
     return(
         (props.modal)
             ? <div>
-                <div className={'fixed'}>
-                    <div className={'modal box-shadow'}>
-                        <button onClick={()=>props.handleExit()} className={'modal-head-button'}>&times;</button>
-                        <h2>{props.idea.name}</h2>
-                        <div className={'modal-name-container flex'}>
-                            <div className={'modal-name-container'}>
-                                <Image
-                                    src={`https://api-staging.devbuff.com/photo/profile/${props.idea.ownerIdea.id}`}
-                                    width={140}
-                                    height={140}
-                                />
-                                <h4 className={'ml-40'}>{props.idea.ownerIdea.userName}</h4>
+                <div className={'fixed rounded '}>
+                    <div className={'h-500 rounded  scroll'}>
+                        <div className={'modal box-shadow  bg-white'}>
+                            <button onClick={()=>props.handleExit()} className={'modal-head-button'}>&times;</button>
+                            <h2>{props.idea.name}</h2>
+                            <div className={'modal-name-container align-center'}>
+                                <div className={'modal-name-container'}>
+                                    <Image
+                                        src={`https://api-staging.devbuff.com/photo/profile/${props.idea.ownerIdea.id}`}
+                                        width={140}
+                                        height={140}
+                                    />
+                                    <h4 className={'ml-40'}>{props.idea.ownerIdea.userName}</h4>
+                                </div>
+                                <div className={'flex-col ml-100'}>
+                                    <span className={'sizeS'}>Последнее Обновление</span>
+                                    <span className={'sizeM'}>{props.idea.lastUpdateDate}</span>
+                                </div>
+                                <div className={'flex-col ml-100'}>
+                                    <span className={'sizeS'}>Статус</span>
+                                    <span className={'sizeM'}>{props.idea.status}</span>
+                                </div>
                             </div>
-                            <div className={'flex-col ml-100'}>
-                                <span className={'sizeS'}>Последнее Обновление</span>
-                                <span className={'sizeM'}>{props.idea.lastUpdateDate}</span>
-                            </div>
-                            <div className={'flex-col ml-100'}>
-                                <span className={'sizeS'}>Статус</span>
-                                <span className={'sizeM'}>{props.idea.status}</span>
-                            </div>
+                            <hr/>
+                            <div className={'bg-white flex-wrap'}>{renderHTML(props.idea.text)}</div>
+                            <button onClick={()=>props.handleId(props.idea.id)} className={'modal-bottom-button'}>Подробнее &#8594;</button>
                         </div>
-                        <hr/>
-                        <div className={'flex-wrap h-500'}>{renderHTML(props.idea.text)}</div>
-                        <button onClick={()=>props.handleId(props.idea.id)} className={'modal-bottom-button'}>Подробнее &#8594;</button>
                     </div>
-                </div>
+                    </div>
                 <div className={'overlay'}></div>
-                <style jsx>{`
+                <style jsx global>{`
     body {
     overflow-y: hidden;
     }
+    .rounded {
+    border-radius: 12px;
+    }
+    .scroll {
+    overflow-y: scroll;
+    }
     .h-500 {
     max-height: 500px;
+    
     }
     .flex-wrap {
     display: flex;
@@ -85,7 +88,7 @@ export default function IdeaModal (props) {
   left: 50%;
   opacity: 100% !important;
   transform: translate(-50%,-50%);
-  overflow-y: scroll;
+  overflow: hidden;
   }
   .box-shadow {
   box-shadow: 1px 5px 5px lightgray;
@@ -117,7 +120,7 @@ export default function IdeaModal (props) {
   .ml-100 {
   margin-left: 100px;
   }
-  .flex {
+  .align-center {
   align-items: center;
   }
   .flex-col {
@@ -129,6 +132,9 @@ export default function IdeaModal (props) {
   }
   .sizeM {
   font-size: 15px;
+  }
+  .bg-white {
+  background-color: white;
   }
 `}</style>
             </div>

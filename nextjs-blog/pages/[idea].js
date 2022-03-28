@@ -2,44 +2,47 @@ import {useRouter} from "next/router";
 import renderHTML from 'react-render-html';
 import Image from "next/image";
 import LayoutIdea from "../components/layoutIdea";
+import {useEffect, useState} from "react";
 
 
 
-export default function Idea({ideaID}) {
-    console.log(ideaID)
+export default function Idea({ideaID : ideas}) {
+    const [data,setData] = useState(ideas)
+    const router = useRouter();
+
     return(
         <LayoutIdea>
             <div className={'w-60'}>
                 <div className={'flex align-center gap-20 space-between rounded box-shadow bg-white p-10'}>
                     <div className={'flex align-center'}>
                         <Image
-                            src={`https://api-staging.devbuff.com/photo/profile/${ideaID.ownerIdea.id}`}
+                            src={`https://api-staging.devbuff.com/photo/profile/${ideas.ownerIdea.id}`}
                             width={80}
                             height={80}
                         />
-                        <span className={'ml-20 sizeM helvetica'}>{ideaID.ownerIdea.userName}</span>
+                        <span className={'ml-20 sizeM helvetica'}>{ideas.ownerIdea.userName}</span>
                     </div>
                     <div className={'flex flex-col align-start'}>
                         <span className={'sizeXS helvetica lightgray'}>Последнее обновление</span>
-                        <span className={'sizeS helvetica'}>{new Date(ideaID.lastUpdateDate).toLocaleDateString()}</span>
+                        <span className={'sizeS helvetica'}>{new Date(ideas.lastUpdateDate).toLocaleDateString()}</span>
                     </div>
                     <div className={'flex flex-col align-start'}>
                         <span className={'sizeXS helvetica lightgray'}>Статус</span>
-                        <span className={'sizeS helvetica'}>{ideaID.status}</span>
+                        <span className={'sizeS helvetica'}>{ideas.status}</span>
                     </div>
                 </div>
                 <div className={'h-400 rounded box-shadow bg-white p-30 mt-30 scroll'}>
                     <div className={'lucida word-break'}>
                         <p className={'sizeXL helvetica text-center m-0'}>Описание</p>
                         <hr />
-                        {renderHTML(ideaID.text)}
+                        {renderHTML(ideas.text)}
                     </div>
                 </div>
             </div>
             <div className={'ml-20 w-20'}>
                 <ul>
                     {
-                        ideaID.specialist.map((item,idx)=>{
+                        ideas.specialist.map((item,idx)=>{
                             return(
                                 <li key={idx} className={'rounded box-shadow p-10 mt-20'}>
                                     <div>
@@ -50,7 +53,7 @@ export default function Idea({ideaID}) {
                                                 {
                                                     item.languages.length === 0
                                                     ?  <li key={idx}>
-                                                            <span className={'sizeS border p-10 helvetica'}>undefined Сань)</span>
+                                                            <span className={'sizeS border p-10 helvetica'}>undefined !</span>
                                                         </li>
                                                     :
                                                     item.languages.map((item,idx)=>{
@@ -221,7 +224,7 @@ export default function Idea({ideaID}) {
                 background-color: #0070f3;
                 border-radius: 9px;
                 width: 100%;
-                
+
                 cursor: pointer;
                 font-family: Helvetica,sans-serif;
                 font-size: 17px;
@@ -245,6 +248,7 @@ export default function Idea({ideaID}) {
         </LayoutIdea>
     )
 }
+
 export const getStaticProps = async (ctx) => {
     const res = await fetch(`https://api-staging.devbuff.com/idea/${ctx.params.idea}`)
     const idea = await res.json()
