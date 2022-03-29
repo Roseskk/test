@@ -20,47 +20,6 @@ export default function Layout ({children, home}) {
                 </nav>
             </header>
             <main>{children}</main>
-            <style jsx scoped>{`
-                //header {
-                //  position: fixed;
-                //  top: 0;
-                //  background-color: white;
-                //  border-bottom: 1px solid lightslategray;
-                //  opacity: 80%;
-                //  z-index: 20;
-                //}
-                //.container {
-                //  max-width: 1260px !important;
-                //}
-                //.sticky {
-                //  position: sticky;
-                //  top: 0;
-                //}
-                //.flex {
-                //  display: flex;
-                //}
-                //.ml-auto {
-                //  margin-left: auto;
-                //}
-                //.mr-auto {
-                //  margin-right: auto;
-                //}
-                //.justify-between {
-                //  justify-content: space-between;
-                //}
-                //.p-10 {
-                //  padding: 10px;
-                //}
-                //.p-20 {
-                //  padding: 20px;
-                //}
-                //.p-30 {
-                //  padding: 30px;
-                //}
-                //.background-white {
-                //  background-color: white;
-                //}
-            `}</style>
         </div>
     )
 }
