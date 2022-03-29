@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
     font-family: LucidaConsole;
     src: url("./lucidaconsole.ttf") format("truetype");
@@ -26,6 +30,9 @@ h1 {
     margin: 0;
 }
 
+.next-transition {
+    transition: all 0.5s ease-in-out;
+}
 
 a:hover {
     text-decoration: underline;
