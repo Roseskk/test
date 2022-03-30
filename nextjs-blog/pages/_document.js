@@ -6,7 +6,7 @@ export default class MyDocument extends Document {
         return (
             <Html>
                 <Head />
-                <body className={pageProps.isScroll ? 'scroll' : 'hidden'}>
+                <body className={pageProps.isScroll ? '' : ''}>
                 <Main />
                 <NextScript />
                 </body>
