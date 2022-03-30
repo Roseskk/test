@@ -31,8 +31,8 @@ export default function Home({posts ,children,isScroll}) {
             setOverlay('fixed w-screen h-screen left-0 top-0 z-30 bg-gray-400 opacity-60')
         }
     }
-    function handlePage(id) {
-        ro
+    function handlePage() {
+        router.push('/explore/2')
     }
 
   return (

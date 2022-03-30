@@ -32,6 +32,17 @@ export default function IdeaPage({ideas,children}) {
             setOverlay('fixed w-screen h-screen left-0 top-0 z-30 bg-gray-400 opacity-60')
         }
     }
+    const handlePrevPage = () => {
+        if (router.query.page === '1') return
+        let page = parseInt(router.query.page) - 1
+        router.push(`${page}`)
+    }
+
+    const handleNextPage = () => {
+        let page = parseInt(router.query.page) + 1
+        router.push(`${page}`)
+    }
+    console.log(ideas)
 
     return(
         <LayoutIdea>
@@ -46,8 +57,16 @@ export default function IdeaPage({ideas,children}) {
                 <Ideas handleModal={handleModal} ideas={ideas} />
                 <IdeaModal handleId={handleId} handleExit={handleExit} modal={modal} idea={idea} />
                 <div className={'flex justify-center mt-2 gap-80'}>
-                    <button disabled className={'bg-gray-500 rounded p-2 cursor-pointer text-white'}>Назад</button>
-                    {/*<button onClick={handlePage} className={'bg-gray-500 rounded p-2 cursor-pointer text-white'}>Вперед</button>*/}
+                    {
+                        router.query.page === '1'
+                        ? <button disabled className={'bg-gray-500 opacity-40 rounded p-2 cursor-pointer text-white'}>Назад</button>
+                        : <button onClick={handlePrevPage} className={'bg-gray-500 rounded p-2 cursor-pointer text-white'}>Назад</button>
+                    }
+                    {
+                        ideas.length < 10
+                        ? <button disabled  className={'bg-gray-500 opacity-40 rounded p-2 cursor-pointer text-white'}>Вперед</button>
+                        : <button onClick={handleNextPage} className={'bg-gray-500 rounded p-2 cursor-pointer text-white'}>Вперед</button>
+                    }
                 </div>
             </div>
             <div className={'w-3/12 ml-2.5 sticky h-72 top-20'}>DevBuff Specs container[tree] ....</div>
