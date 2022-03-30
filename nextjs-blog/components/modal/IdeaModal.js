@@ -1,5 +1,6 @@
 import Image from "next/image";
 import renderHTML from 'react-render-html';
+import Link from "next/link";
 
 
 export default function IdeaModal (props) {
@@ -11,8 +12,8 @@ export default function IdeaModal (props) {
                     <div className={'h-96  rounded  overflow-scroll'}>
                         <div className={'relative flex flex-col w-full bg-white py-5 px-2 rounded  shadow-md shadow-gray-300 '}>
                             <div className={'flex justify-between items-center sticky top-2'}>
-                                <button onClick={()=>props.handleExit()} className={'sticky border-none bg-gray-200 opacity-60 rounded w-10 transition ease-in-out duration-500 hover:opacity-100 text-center text-3xl bg-transparent cursor-pointer text-blue-500'}>&times;</button>
-                                <button onClick={()=>props.handleId(props.idea.id)} className={'sticky text-center border-none bg-gray-200 opacity-60 rounded p-2 transition ease-in-out duration-500 hover:opacity-100 text-blue-500 cursor-pointer text-base'}>Подробнее &#8594;</button>
+                                <button  onClick={()=>props.handleExit()} className={'sticky border-none bg-gray-200 opacity-60 rounded w-10 transition ease-in-out duration-500 hover:opacity-100 text-center text-2xl bg-transparent cursor-pointer text-blue-500'}>&times;</button>
+                                <Link href={`/idea/${props.idea.id}`} className={'sticky text-center border-none bg-gray-200 opacity-60 rounded p-2 transition ease-in-out duration-500 hover:opacity-100 text-blue-500 cursor-pointer text-base no-underline'}><a className={'hover:no-underline'} onClick={()=>props.handleId()}>Подробнее &#8594;</a></Link>
                             </div>
                             <h2 className={'mb-5'}>{props.idea.name}</h2>
                             <div className={'flex justify-between mb-5 '}>

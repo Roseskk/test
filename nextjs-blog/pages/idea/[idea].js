@@ -1,14 +1,16 @@
 import {useRouter} from "next/router";
 import renderHTML from 'react-render-html';
 import Image from "next/image";
-import LayoutIdea from "../components/layoutIdea";
+import LayoutIdea from "../../components/layoutIdea";
 import {useEffect, useState} from "react";
 
 
 
 export default function Idea({ideaID : ideas}) {
-    const [data,setData] = useState(ideas)
+    // const [data,setData] = useState(ideas)
     const router = useRouter();
+    // console.log(ideas)
+
 
     return(
         <LayoutIdea>
@@ -49,7 +51,7 @@ export default function Idea({ideaID : ideas}) {
                                         <h2>{item.name}</h2>
                                         <div>
                                             <span className={'text-xs text-gray-400'}>Стэк языков</span>
-                                            <ul className={'flex gap-5'}>
+                                            <ul className={'flex flex-wrap gap-5'}>
                                                 {
                                                     item.languages.length === 0
                                                     ?  <li key={idx}>
@@ -65,9 +67,9 @@ export default function Idea({ideaID : ideas}) {
                                                     )}
                                             </ul>
                                         </div>
-                                        <div>
+                                        <div className={'flex-wrap flex mt-2'}>
                                             <span className={'text-xs text-gray-400'}>Стэк технологий</span>
-                                            <ul className={'flex gap-5'}>
+                                            <ul className={'flex flex-wrap gap-5'}>
                                                 {
                                                     item.languages.map((item,idx)=>{
                                                         return(
@@ -97,25 +99,24 @@ export default function Idea({ideaID : ideas}) {
     )
 }
 
-export const getStaticProps = async (ctx) => {
-    const res = await fetch(`https://api-staging.devbuff.com/idea/${ctx.params.idea}`)
+Idea.getInitialProps = async (ctx) => {
+    const res = await fetch(`https://api-staging.devbuff.com/idea/${ctx.query.idea}`)
     const idea = await res.json()
+
     return {
-        props : {
-            ideaID : idea
-        }
+        ideaID : idea
     }
 }
-export const getStaticPaths = async () => {
-    const res = await fetch('https://api-staging.devbuff.com/idea/?page=1&sortBy=lastUpdate&specialists=&languages=')
-    const allIdeas = await res.json()
-    const paths = allIdeas.ideas.map(item=>{
-        return({
-            params : { idea : item.id.toString() },
-        })
-    })
-    return {
-        paths,
-        fallback : false
-    }
-}
+// export const getStaticPaths = async () => {
+//     const res = await fetch('https://api-staging.devbuff.com/idea/?page=1&sortBy=lastUpdate&specialists=&languages=')
+//     const allIdeas = await res.json()
+//     const paths = allIdeas.ideas.map(item=>{
+//         return({
+//             params : { idea : item.id.toString() },
+//         })
+//     })
+//     return {
+//         paths,
+//         fallback : false
+//     }
+// }
