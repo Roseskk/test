@@ -21,7 +21,7 @@ export default function Home({posts ,children,isScroll}) {
     const router = useRouter();
 
     useEffect(async()=>{
-        console.log(location)
+
         let res = await fetch('https://api-staging.devbuff.com/profile',{
             headers : {
                 authorization : `Bearer ${localStorage.getItem('access_token')} `
@@ -83,7 +83,6 @@ export default function Home({posts ,children,isScroll}) {
                                 <button type={"button"} className={'w-full rounded bg-blue-400 mt-2 mb-2  '} onClick={handleSignIn}><div className={'translate-y-1'}><Image priority width={30} height={30} src={'/images/Octocat.png'} /></div> </button>
                             }
                             <span className={'text-xs'}>Авторизируйтесь для возможности просмотра и публикации идей</span>
-                            {/*<button type={"button"} onClick={handleSignOut}>Выйти </button>*/}
                         </div>
                     :  <button type={"button"} className={'w-full rounded bg-blue-400 mt-2 mb-2'} onClick={handleSignOut}>Выйти</button>
                 }
