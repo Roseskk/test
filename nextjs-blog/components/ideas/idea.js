@@ -12,7 +12,7 @@ export default function Ideas (props) {
                         {
                             props.ideas.map((item,idx)=>{
                                 return(
-                                    <li className={'rounded bg-white shadow-md shadow-gray-300 mt-2 p-2  relative'} key={uuid()}>
+                                    <li className={'rounded-2xl bg-white shadow-md shadow-gray-300 mt-6 p-2  relative hover:scale-105 transition ease-in-out duration-500'} key={uuid()}>
                                         <div className={''}>
                                             <div className={'flex items-center w-full overflow-hidden rounded '}>
                                                 <Image
