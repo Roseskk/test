@@ -18,6 +18,19 @@ export default function Home({posts ,children,isScroll}) {
     const [modal,setModal] = useState();
     const [idea,setIdea] = useState();
     const router = useRouter();
+
+    useEffect(async()=>{
+        let res = await fetch('https://api-staging.devbuff.com/profile',{
+            headers : {
+                authorization : `Bearer ${localStorage.getItem('access_token')} `
+            }
+        })
+        let currentUser = await res.json()
+        if (!currentUser.id) return
+        console.log(currentUser)
+        setUser(currentUser)
+    },[])
+
     async function handleModal(id) {
         const res = await fetch(`https://api-staging.devbuff.com/idea/${id}`)
         const content = await res.json()
@@ -37,13 +50,13 @@ export default function Home({posts ,children,isScroll}) {
         router.push('/explore/2')
     }
     const handleSignIn = () => {
-        
-        // location.assign('https://api-staging.devbuff.com/oAuth/external/init/github/client/web')
-        // location.reload()
-        // return await axios.get('https://api-staging.devbuff.com/oAuth/external/init/github/client/web')
-        //     .then(result => console.log(result))
+        location.assign('https://api-staging.devbuff.com/oAuth/external/init/github/client/web')
     }
     const  handleSignOut = () => {
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('refresh_token')
+        localStorage.removeItem('token_type')
+        location.reload()
     }
 
   return (

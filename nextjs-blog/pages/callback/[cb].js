@@ -3,7 +3,6 @@ import {useRouter} from "next/router";
 import axios from "axios";
 
 export default function CB({code})  {
-    // console.log(cback)
     const router = useRouter()
     useEffect(async ()=>{
         let params = new URLSearchParams({ code : code, grant_type: 'GitHub_oauth', clientType : 'web' })
@@ -22,7 +21,6 @@ export default function CB({code})  {
 
 
 export const getServerSideProps = async (ctx) => {
-    console.log(ctx)
     let res = await fetch('https://api-staging.devbuff.com/oAuth/external/init/github/client/web')
     return(
         {
