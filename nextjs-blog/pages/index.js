@@ -13,6 +13,7 @@ import axios from "axios";
 
 export default function Home({posts ,children,isScroll}) {
     const [user,setUser] = useState()
+    const [token,setToken] = useState()
     const [ring,setRing] = useState('hidden');
     const [overlay,setOverlay] = useState('hidden')
     const [modal,setModal] = useState();
@@ -20,6 +21,7 @@ export default function Home({posts ,children,isScroll}) {
     const router = useRouter();
 
     useEffect(async()=>{
+        console.log(location)
         let res = await fetch('https://api-staging.devbuff.com/profile',{
             headers : {
                 authorization : `Bearer ${localStorage.getItem('access_token')} `
@@ -27,7 +29,7 @@ export default function Home({posts ,children,isScroll}) {
         })
         let currentUser = await res.json()
         if (!currentUser.id) return
-        console.log(currentUser)
+        setToken(localStorage.getItem('access_token'))
         setUser(currentUser)
     },[])
 
@@ -51,6 +53,10 @@ export default function Home({posts ,children,isScroll}) {
     }
     const handleSignIn = () => {
         location.assign('https://api-staging.devbuff.com/oAuth/external/init/github/client/web')
+        if (location.host !== 'https://api-staging.devbuff.com') {
+            setRing('fixed h-72 left-1/2 top-1/2 z-9000 bg-transparent translate-y-50 translate-x-50 block')
+            setOverlay('fixed w-screen h-screen left-0 top-0 z-30 bg-gray-400 opacity-60')
+        }
     }
     const  handleSignOut = () => {
         localStorage.removeItem('access_token')
@@ -68,15 +74,29 @@ export default function Home({posts ,children,isScroll}) {
               />
           </div>
         <section className={'max-w-screen-xl p-4 mx-auto justify-between flex'}>
-            <nav className={'h-72 w-2/12 sticky top-16'}>
-                <div className={'flex flex-col'}>
-                    <button type={"button"} onClick={handleSignIn}>Войти</button>
-                    <button type={"button"} onClick={handleSignOut}>Выйти </button>
-                </div>
+            <nav className={'h-72 w-2/12 sticky top-16 mr-3'}>
+                {
+                    !token
+                    ? <div className={'flex items-center rounded bg-gray-300 flex-col  p-3'}>
+                            <span className={'text-base'}>Войти с помощью</span>
+                            {
+                                <button type={"button"} className={'w-full rounded bg-blue-400 mt-2 mb-2  '} onClick={handleSignIn}><div className={'translate-y-1'}><Image priority width={30} height={30} src={'/images/Octocat.png'} /></div> </button>
+                            }
+                            <span className={'text-xs'}>Авторизируйтесь для возможности просмотра и публикации идей</span>
+                            {/*<button type={"button"} onClick={handleSignOut}>Выйти </button>*/}
+                        </div>
+                    :  <button type={"button"} className={'w-full rounded bg-blue-400 mt-2 mb-2'} onClick={handleSignOut}>Выйти</button>
+                }
                 <ul className={'list-none p-0'}>
-                    <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2  bg-cyan-100 rounded  '}><Image width={20} height={20} src={'/images/idea-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Идеи</span></div></a></Link></li>
-                    <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2 bg-green-300 rounded '}><Image width={20} height={20} src={'/images/dashboard-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Дашборд</span></div></a></Link></li>
-                    <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2 bg-pink-300 rounded '}><Image width={20} height={20} src={'/images/settings-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Настройки</span></div></a></Link></li>
+                    {
+                        token
+                        ? <>
+                            <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2 bg-green-300 rounded '}><Image width={20} height={20} src={'/images/dashboard-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Дашборд</span></div></a></Link></li>
+                            <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2 bg-pink-300 rounded '}><Image width={20} height={20} src={'/images/settings-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Настройки</span></div></a></Link></li>
+                            <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2  bg-cyan-100 rounded  '}><Image width={20} height={20} src={'/images/idea-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Идеи</span></div></a></Link></li>
+                         </>
+                        : <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2  bg-cyan-100 rounded  '}><Image width={20} height={20} src={'/images/idea-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Идеи</span></div></a></Link></li>
+                    }
                 </ul>
             </nav>
             <div className={'w-8/12'}>
