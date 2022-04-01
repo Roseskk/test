@@ -7,10 +7,12 @@ import Link from "next/link";
 import Ideas from "../components/ideas/idea";
 import IdeaModal from "../components/modal/IdeaModal";
 import {Rings} from "react-loader-spinner";
+import axios from "axios";
 
 
 
 export default function Home({posts ,children,isScroll}) {
+    const [user,setUser] = useState()
     const [ring,setRing] = useState('hidden');
     const [overlay,setOverlay] = useState('hidden')
     const [modal,setModal] = useState();
@@ -34,6 +36,15 @@ export default function Home({posts ,children,isScroll}) {
     function handlePage() {
         router.push('/explore/2')
     }
+    const handleSignIn = () => {
+        
+        // location.assign('https://api-staging.devbuff.com/oAuth/external/init/github/client/web')
+        // location.reload()
+        // return await axios.get('https://api-staging.devbuff.com/oAuth/external/init/github/client/web')
+        //     .then(result => console.log(result))
+    }
+    const  handleSignOut = () => {
+    }
 
   return (
       <Layout>
@@ -45,6 +56,10 @@ export default function Home({posts ,children,isScroll}) {
           </div>
         <section className={'max-w-screen-xl p-4 mx-auto justify-between flex'}>
             <nav className={'h-72 w-2/12 sticky top-16'}>
+                <div className={'flex flex-col'}>
+                    <button type={"button"} onClick={handleSignIn}>Войти</button>
+                    <button type={"button"} onClick={handleSignOut}>Выйти </button>
+                </div>
                 <ul className={'list-none p-0'}>
                     <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2  bg-cyan-100 rounded  '}><Image width={20} height={20} src={'/images/idea-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Идеи</span></div></a></Link></li>
                     <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2 bg-green-300 rounded '}><Image width={20} height={20} src={'/images/dashboard-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Дашборд</span></div></a></Link></li>

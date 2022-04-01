@@ -42,7 +42,6 @@ export default function IdeaPage({ideas,children}) {
         let page = parseInt(router.query.page) + 1
         router.push(`${page}`)
     }
-    console.log(ideas)
 
     return(
         <LayoutIdea>
