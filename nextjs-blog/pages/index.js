@@ -31,6 +31,7 @@ export default function Home({posts ,children,isScroll}) {
         if (!currentUser.id) return
         setToken(localStorage.getItem('access_token'))
         setUser(currentUser)
+        console.log(currentUser)
     },[])
 
     async function handleModal(id) {
@@ -84,15 +85,38 @@ export default function Home({posts ,children,isScroll}) {
                             }
                             <span className={'text-xs'}>Авторизируйтесь для возможности просмотра и публикации идей</span>
                         </div>
-                    :  <button type={"button"} className={'w-full rounded bg-blue-400 mt-2 mb-2'} onClick={handleSignOut}>Выйти</button>
+                    :  null
                 }
                 <ul className={'list-none p-0'}>
                     {
                         token
                         ? <>
+                            <li className={'mt-3.5'}>
+                                <Link href={'/'}>
+                                    <a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}>
+                                        <div className={'flex items-center '}>
+                                            {
+                                                !user
+                                                ? <div className={'flex items-center p-0  rounded '}>
+                                                        <Image width={40} height={40} src={`/images/profile.jpeg`}/>
+                                                    </div>
+                                                :   <div className={'flex items-center p-0  rounded '}>
+                                                        <Image width={40} height={40} src={`https://api-staging.devbuff.com/photo/profile/${user.id}`}/>
+                                                    </div>
+                                            }
+                                            <div className={'flex flex-col items-center text-xs'}>
+                                                <span className={'ml-2 text-xs no-underline text-black'}>{ !user ? null :<> { user.firstName === null ? <span>Name LastName</span> :<span> {user.firstName} {user.lastName} </span> }</> }</span>
+                                                <span className={'text-gray-400'}>@{ !user ? <span>@...</span> :  user.userName}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </Link>
+                            </li>
                             <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2 bg-green-300 rounded '}><Image width={20} height={20} src={'/images/dashboard-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Дашборд</span></div></a></Link></li>
                             <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2 bg-pink-300 rounded '}><Image width={20} height={20} src={'/images/settings-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Настройки</span></div></a></Link></li>
                             <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2  bg-cyan-100 rounded  '}><Image width={20} height={20} src={'/images/idea-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Идеи</span></div></a></Link></li>
+                            <hr className={'mt-3'} />
+                            <button type={"button"} className={'w-full rounded text-sm text-red-200 hover:text-red-500 transition ease-in-out duration-500 mt-2 mb-2'} onClick={handleSignOut}>Выйти</button>
                          </>
                         : <li className={'mt-3.5'}><Link href={'/'}><a className={'flex items-center opacity-60 transition ease-in-out hover:opacity-100 duration-500  hover:no-underline '}><div className={'flex items-center '}><div className={'flex items-center p-2  bg-cyan-100 rounded  '}><Image width={20} height={20} src={'/images/idea-svgrepo-com.svg'}/></div><span className={'ml-2 no-underline'}>Идеи</span></div></a></Link></li>
                     }
